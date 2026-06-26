@@ -1,5 +1,10 @@
-# [ MICCAI 2026 ] **Controllable Histopathology Image Synthesis with Training-free Structural Initialization and Textural Modulation**.
 
+
+<p align="center">
+  <img src="fig/logo.png" width="400">
+</p>
+
+# [ MICCAI 2026 ] **Controllable Histopathology Image Synthesis with Training-free Structural Initialization and Textural Modulation**.
 ## Start Here
 
 ### Environment
@@ -69,6 +74,4 @@ pipeline, vae = load_pixcell_pipeline()
 feature_extractor = UNI2FeatureExtractor()
 ```
 
-## Status
 
-The source code and documentation are currently under preparation and will be released after the paper is accepted.
