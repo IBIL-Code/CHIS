@@ -16,7 +16,7 @@ class CHISController:
         seed=42,
         fg_low_lock=0.95,
         fg_high_lock=0.6,
-        bg_lock=0.2,
+        bg_lock=0.15,
     ):
         self.inject_step = inject_step
         self.device = guide_latents.device

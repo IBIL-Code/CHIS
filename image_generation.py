@@ -17,9 +17,11 @@ from controller import (
 from model_zoo import UNI2FeatureExtractor, load_pixcell
 
 
-def load_binary_mask(path: Path) -> np.ndarray:
-    mask = np.array(Image.open(path).convert("L"))
-    return (mask > 0).astype(np.float32)
+def load_binary_mask(path: Path, threshold: float = 0.5) -> np.ndarray:
+    mask = np.array(Image.open(path).convert("L"), dtype=np.float32)
+    if mask.max() > 1.0:
+        mask = mask / 255.0
+    return (mask >= threshold).astype(np.float32)
 
 
 def parse_args():
@@ -30,11 +32,11 @@ def parse_args():
     parser.add_argument("--target-mask", type=Path, required=True)
     parser.add_argument("--output", type=Path, default=Path("chis_result.png"))
     parser.add_argument(
-        "--pseudo-mask-output", type=Path, default=Path("reference_pseudo_mask.png")
+        "--save-intermediates",
+        action="store_true",
+        help="Save the reference pseudo mask and structure guide next to the output image.",
     )
-    parser.add_argument(
-        "--guide-output", type=Path, default=Path("structure_guide.png")
-    )
+    parser.add_argument("--mask-threshold", type=float, default=0.5)
     parser.add_argument("--seed", type=int, default=65)
     parser.add_argument("--inject-step", type=int, default=40)
     parser.add_argument("--num-inference-steps", type=int, default=50)
@@ -50,11 +52,8 @@ def main():
 
     reference_image = np.array(Image.open(args.reference_image).convert("RGB"))
     reference_pseudo_mask = segment_reference_mask(reference_image)
-    Image.fromarray((reference_pseudo_mask * 255).astype(np.uint8)).save(
-        args.pseudo_mask_output
-    )
 
-    target_mask = load_binary_mask(args.target_mask)
+    target_mask = load_binary_mask(args.target_mask, threshold=args.mask_threshold)
     dr_mask, dt_mask, sigma = process_masks(reference_pseudo_mask, target_mask)
 
     structure_guide = generate_structure_guide(
@@ -63,7 +62,13 @@ def main():
         target_mask,
         n_bins=100,
     )
-    Image.fromarray(structure_guide).save(args.guide_output)
+    if args.save_intermediates:
+        output_dir = args.output.parent
+        output_dir.mkdir(parents=True, exist_ok=True)
+        Image.fromarray((reference_pseudo_mask * 255).astype(np.uint8)).save(
+            output_dir / "reference_pseudo_mask.png"
+        )
+        Image.fromarray(structure_guide).save(output_dir / "structure_guide.png")
 
     nucleus_bank, bg_bank = build_texture_bank(vae, reference_image, dr_mask)
     uni_embeds = uni_model.extract_uni_embeddings(reference_image)

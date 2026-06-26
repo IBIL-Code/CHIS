@@ -2,11 +2,15 @@
 
 ## Start Here
 
-Create the environment with [uv](https://docs.astral.sh/uv/):
+### Environment
+
+CHIS uses a lightweight [uv](https://docs.astral.sh/uv/) environment. Python, PyTorch, Diffusers, Transformers, timm, OpenCV, and the remaining runtime dependencies are pinned through `pyproject.toml` and `uv.lock`.
 
 ```bash
 uv sync
 ```
+
+The default environment targets Python 3.12 and CUDA-enabled PyTorch. In our tests, single-image inference runs on a consumer NVIDIA RTX 5060 Ti GPU, making CHIS practical without server-grade hardware.
 
 CHIS loads pretrained models from Hugging Face at runtime. The first run will download the required weights into your local Hugging Face cache.
 
@@ -56,7 +60,7 @@ uv run python image_generation.py \
   --output chis_result.png
 ```
 
-The reference pseudo mask is segmented automatically from the reference image and saved to `reference_pseudo_mask.png` by default. The intermediate structure guide is saved to `structure_guide.png` by default.
+The reference pseudo mask is segmented automatically from the reference image. Target masks may be stored as `0/1` or `0/255`; they are normalized and binarized with `--mask-threshold 0.5` by default. Intermediate files are not saved by default; pass `--save-intermediates` to write `reference_pseudo_mask.png` and `structure_guide.png` next to the output image.
 
 ```python
 from model_zoo import UNI2FeatureExtractor, load_pixcell_pipeline
