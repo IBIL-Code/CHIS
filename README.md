@@ -1,7 +1,7 @@
 
 
 <p align="center">
-  <img src="fig/logo.png" width="240">
+  <img src="fig/logo.png" width="50%">
 </p>
 
 # [ MICCAI 2026 ] **Controllable Histopathology Image Synthesis with Training-free Structural Initialization and Textural Modulation**.
