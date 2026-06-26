@@ -1,13 +1,24 @@
 
 
 <p align="center">
-  <img src="fig/logo.png" width="400">
+  <img src="fig/logo.png" width="240">
 </p>
 
 # [ MICCAI 2026 ] **Controllable Histopathology Image Synthesis with Training-free Structural Initialization and Textural Modulation**.
-## Start Here
 
-### Environment
+<p align="center">
+  <img src="fig/results.png" width="100%">
+</p>
+
+CHIS generates structure-aligned histopathology images from a target mask and a reference image. In the results above, the left panel shows that changing the reference image enables CHIS to synthesize images with different visual styles while preserving the same target mask. The right panel further illustrates reference-guided style diversity under a shared structural layout.
+
+<p align="center">
+  <img src="fig/pipeline.png" width="100%">
+</p>
+
+CHIS is a training-free framework that guides pretrained histopathology diffusion models without additional finetuning. It first builds a structure-aware initialization by combining mask-derived phase information with Gaussian-noise magnitude in the frequency domain. During reverse sampling, reference textures are adaptively injected through wavelet-based aggregation, allowing the generated image to remain faithful to the target structure while matching the appearance of the reference image.
+
+## Start Here
 
 CHIS uses a lightweight [uv](https://docs.astral.sh/uv/) environment. Python, PyTorch, Diffusers, Transformers, timm, OpenCV, and the remaining runtime dependencies are pinned through `pyproject.toml` and `uv.lock`.
 
