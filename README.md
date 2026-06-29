@@ -6,6 +6,13 @@
 
 # [ MICCAI 2026 ] **Controllable Histopathology Image Synthesis with Training-free Structural Initialization and Textural Modulation**.
 
+
+
+<p align="center">
+  <a href="https://arxiv.org/abs/2606.27935"><img src="https://img.shields.io/badge/arXiv-2606.27935-b31b1b.svg" alt="arXiv"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>
+</p>
+
 <p align="center">
   <img src="fig/results.png" width="100%">
 </p>
@@ -65,6 +72,15 @@ You can control where Hugging Face stores downloaded weights with:
 export HF_HOME=/path/to/huggingface_cache
 ```
 
+The pretrained components can also be loaded directly from Python:
+
+```python
+from model_zoo import UNI2FeatureExtractor, load_pixcell_pipeline
+
+pipeline, vae = load_pixcell_pipeline()
+feature_extractor = UNI2FeatureExtractor()
+```
+
 ## Usage
 
 Run CHIS on one reference image and one target mask:
@@ -78,11 +94,19 @@ uv run python image_generation.py \
 
 The reference pseudo mask is segmented automatically from the reference image. Target masks may be stored as `0/1` or `0/255`; they are normalized and binarized with `--mask-threshold 0.5` by default. Intermediate files are not saved by default; pass `--save-intermediates` to write `reference_pseudo_mask.png` and `structure_guide.png` next to the output image.
 
-```python
-from model_zoo import UNI2FeatureExtractor, load_pixcell_pipeline
+## Citation
 
-pipeline, vae = load_pixcell_pipeline()
-feature_extractor = UNI2FeatureExtractor()
+If you find CHIS useful in your research, please cite our paper:
+
+```bibtex
+@article{chis2026,
+  title={Controllable Histopathology Image Synthesis with Training-free Structural Initialization and Textural Modulation},
+  author={Qiu, Yuheng and Luo, Jingyi and Ye, Chenfei and Ma, Ting and Cao, Jianfeng},
+  journal={arXiv preprint arXiv:2606.27935},
+  year={2026}
+}
 ```
 
+## License
 
+This project is released under the [MIT License](LICENSE).
