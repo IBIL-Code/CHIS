@@ -9,7 +9,7 @@
 
 
 <p align="center">
-  <a href="https://arxiv.org/abs/2606.27935"><img src="https://img.shields.io/badge/arXiv-2606.27935-b31b1b.svg" alt="arXiv"></a>
+  <a href="https://papers.miccai.org/miccai-2026/paper/1821_paper.pdf"><img src="https://img.shields.io/badge/MICCAI-2026-blue.svg" alt="MICCAI 2026"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>
 </p>
 
